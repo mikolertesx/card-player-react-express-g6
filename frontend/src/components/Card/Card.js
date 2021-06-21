@@ -4,10 +4,11 @@ import "./Card.css";
 import Cards from "./Cards.png";
 import CardBack from "./CardCover.png";
 
-const Card = ({ number, symbol, isFlipped = true }) => {
+const Card = ({ number, symbol, canBeFlipped = true, isFlipped = true }) => {
 	const [currentFlip, setCurrentFlip] = useState(isFlipped);
 
 	const onClickCardHandler = () => {
+		if (canBeFlipped === false) return;
 		setCurrentFlip((prevFlip) => !prevFlip);
 	};
 

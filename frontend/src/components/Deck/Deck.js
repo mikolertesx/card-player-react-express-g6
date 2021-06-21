@@ -1,22 +1,23 @@
+import "./Deck.css";
+
 import { useEffect, useState } from "react";
 
 import Card from "../Card/Card";
 
-const createHand = (cards) => {
+const createHand = (cards, canBeFlipped = true) => {
 	//Generate each.
 	const cardElements = cards.map((card) => {
 		const number = card.card.slice(0, -1);
 		const symbol = card.card.slice(-1);
 		const flipped = card.flipped;
 
-		// number, symbol, isFlipped = true
-		// console.log(number, symbol, flipped);
 		return (
 			<Card
 				key={`${symbol}-${number}`}
 				number={number}
 				symbol={symbol}
 				isFlipped={flipped}
+				canBeFlipped={canBeFlipped}
 			/>
 		);
 	});
@@ -46,13 +47,11 @@ const Deck = (props) => {
 	return (
 		<div>
 			<h3>{props.title}</h3>
-			<div className="deck">
-				<h2>Deck Cards</h2>
-				{createHand(deckCards)}
-			</div>
+			<h2>Deck Cards</h2>
+			<div className="deck">{createHand(deckCards, false)}</div>
+			<h2>Mi mano </h2>
 			<div className="hand">
-				<h2>Mi mano </h2>
-				{!error ? createHand(handCards) : <p>{error}</p>}
+				{!error ? createHand(handCards, true) : <p>{error}</p>}
 			</div>
 		</div>
 	);
