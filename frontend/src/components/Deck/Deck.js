@@ -1,4 +1,5 @@
 import "./Deck.css";
+import { getRandomTip } from "../../util/randomTip"
 
 import { useEffect, useState } from "react";
 
@@ -36,20 +37,40 @@ const Deck = (props) => {
 		(async () => {
 			const response = await fetch("http://localhost:4001/get-deck");
 			const data = await response.json();
-			console.log(data);
-			setDeckCards(data.deck);
-			setHandCards(data.hand);
-			setError(data.error || null);
-			console.log(data.error);
+			const timeout = setTimeout(() => {
+				setDeckCards(data.deck);
+				setHandCards(data.hand);
+				setError(data.error || null);
+
+				return () => {
+					clearTimeout(timeout)
+				}
+			}, 3000)
 		})();
 	}, []);
+
+	if (!error && (handCards.length === 0 || deckCards.length === 0)) {
+		return <div>
+			<h3>{props.title}</h3>
+			<h2>Deck Cards</h2>
+			<div className="deck">
+				<h2>Loading...</h2>
+			</div>
+			<div className="hand">
+				<h2>Loading...</h2>
+			</div>
+			<div className="hand">
+				<h3>{getRandomTip()}</h3>
+			</div>
+		</div>
+	}
 
 	return (
 		<div>
 			<h3>{props.title}</h3>
 			<h2>Deck Cards</h2>
 			<div className="deck">{createHand(deckCards, false)}</div>
-			<h2>Mi mano </h2>
+			<h2>My Hand</h2>
 			<div className="hand">
 				{!error ? createHand(handCards, true) : <p>{error}</p>}
 			</div>

@@ -20,7 +20,7 @@ app.get("/get-deck", (req, res) => {
 		return res.json({
 			hand: [],
 			deck: fixedDeckCards,
-			error: "No hay más cartas para unirse.",
+			error: "There's no cards left to join.",
 		});
 	}
 	const hand = new Hand(deck, HANDS_PER_DECK);
