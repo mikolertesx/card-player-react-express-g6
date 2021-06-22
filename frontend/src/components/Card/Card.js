@@ -1,8 +1,18 @@
 import { useState } from "react";
 
 import "./Card.css";
-import Cards from "./Cards.png";
-import CardBack from "./CardCover.png";
+import CardsImage from "./Cards.png";
+import CardBackImage from "./CardCover.png";
+
+const nonNumbers = ["A", "J", "Q", "K"]
+
+const getFixedSize = (number) => {
+	return nonNumbers.findIndex(inNumber => number === inNumber) !== -1 ? 1 : +number
+}
+
+const getCardUrl = (number) => {
+	return number === "J" || number === "Q" || number === "K" ? CardsImage : ""
+}
 
 const Card = ({ number, symbol, canBeFlipped = true, isFlipped = true }) => {
 	const [currentFlip, setCurrentFlip] = useState(isFlipped);
@@ -14,13 +24,23 @@ const Card = ({ number, symbol, canBeFlipped = true, isFlipped = true }) => {
 
 	const fixedClassName = `card card-${symbol} ${currentFlip ? "flipped" : ""}`;
 	const isNumber = !isNaN(number) || number === "A";
-	const fixedSize =
-		number === "A" || number === "J" || number === "Q" || number === "K"
-			? 1
-			: number;
-	const cardsUrl =
-		number === "J" || number === "Q" || number === "K" ? Cards : "";
+	const fixedSize = getFixedSize(number)
+	const cardsUrl = getCardUrl(number);
 	const symbolsArray = new Array(parseInt(fixedSize)).fill(symbol);
+
+	const mappedSymbols = (isNumber ? (
+		symbolsArray.map((symbol, index) => <div key={index}>{symbol}</div>)
+	) : (
+		<></>
+	))
+
+	const cardFrontStyles = {
+		backgroundImage: `url(${cardsUrl})`
+	}
+
+	const cardBackStyles = {
+		backgroundImage: `url(${CardBackImage})`,
+	}
 
 	return (
 		<div
@@ -30,20 +50,14 @@ const Card = ({ number, symbol, canBeFlipped = true, isFlipped = true }) => {
 		>
 			<div
 				className="card-front"
-				style={{
-					backgroundImage: "url(" + cardsUrl + ")",
-				}}
+				style={cardFrontStyles}
 			>
 				<div className="card-corner top-left">
 					<div>{number}</div>
 					<div>{symbol}</div>
 				</div>
 				<div className="symbols">
-					{isNumber ? (
-						symbolsArray.map((symbol, index) => <div key={index}>{symbol}</div>)
-					) : (
-						<></>
-					)}
+					{mappedSymbols}
 				</div>
 				<div className="card-corner bottom-right">
 					<div>{number}</div>
@@ -52,9 +66,7 @@ const Card = ({ number, symbol, canBeFlipped = true, isFlipped = true }) => {
 			</div>
 			<div
 				className="card-back"
-				style={{
-					backgroundImage: "url(" + CardBack + ")",
-				}}
+				style={cardBackStyles}
 			></div>
 		</div>
 	);
