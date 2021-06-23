@@ -8,10 +8,23 @@ const HANDS_PER_DECK = 2;
 app.use(cors());
 app.use(express.json());
 
-app.use(express.static('build'))
-
 const deck = new Deck();
 const deckCards = deck.dispatchCards(5);
+
+app.get('/all-cards', (req, res) => {
+	const newDeck = new Deck();
+
+	const data = {
+		hand: [],
+		deck: newDeck.cards.map(card => ({
+			card,
+			flipped: false,
+		}))
+	}
+
+	return res.json(data)
+})
+
 app.get("/get-deck", (req, res) => {
 	const fixedDeckCards = deckCards.map((card, index) => ({
 		card,
@@ -52,6 +65,8 @@ app.post("/get-cards", (req, res) => {
 		deck: deck.cards,
 	});
 });
+
+app.use('/*', express.static('build'))
 
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`);

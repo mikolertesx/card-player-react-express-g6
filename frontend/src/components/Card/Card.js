@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import "./Card.scss";
+import "./Card-Types.scss";
 import CardsImage from "./Cards.png";
 import CardBackImage from "./CardCover.png";
 

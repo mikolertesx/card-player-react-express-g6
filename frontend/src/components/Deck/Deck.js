@@ -27,13 +27,22 @@ const createHand = (cards, canBeFlipped = true) => {
 };
 
 const Deck = (props) => {
+	const [path, setPath] = useState(null)
 	const [deckCards, setDeckCards] = useState([]);
 	const [handCards, setHandCards] = useState([]);
 	const [error, setError] = useState(null);
 
+	// Get the path
 	useEffect(() => {
+		setPath(() => {
+			return window.location.pathname === '/' ? 'get-deck' : 'all-cards'
+		})
+	}, [])
+
+	useEffect(() => {
+		if (!path) return
 		(async () => {
-			const response = await fetch("http://localhost:4001/get-deck");
+			const response = await fetch(`http://localhost:4001/${path}`);
 			const data = await response.json();
 			const timeout = setTimeout(() => {
 				setDeckCards(data.deck);
@@ -45,9 +54,9 @@ const Deck = (props) => {
 				}
 			}, 3000)
 		})();
-	}, []);
+	}, [path]);
 
-	if (!error && (handCards.length === 0 || deckCards.length === 0)) {
+	if (!error && (handCards.length === 0 && deckCards.length === 0)) {
 		return <div>
 			<h3>{props.title}</h3>
 			<h2>Deck Cards</h2>

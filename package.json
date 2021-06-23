@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
 		"server": "npm start --prefix backend",
+		"dev:server": "npm run dev:server --prefix backend",
 		"client": "npm start --prefix frontend",
-		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"dev": "concurrently \"npm run dev:server\" \"npm run client\"",
 		"build": "npm run build --prefix frontend",
 		"move-dist": "rm -r backend/build & mv frontend/build backend",
 		"production-ready": "npm run build & npm run move-dist & npm run server",
