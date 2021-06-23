@@ -8,6 +8,8 @@ const HANDS_PER_DECK = 2;
 app.use(cors());
 app.use(express.json());
 
+app.use(express.static('build'))
+
 const deck = new Deck();
 const deckCards = deck.dispatchCards(5);
 app.get("/get-deck", (req, res) => {
