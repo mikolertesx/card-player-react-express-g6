@@ -28,11 +28,9 @@ const Card = ({ number, symbol, canBeFlipped = true, isFlipped = true }) => {
 	const cardsUrl = getCardUrl(number);
 	const symbolsArray = new Array(parseInt(fixedSize)).fill(symbol);
 
-	const mappedSymbols = (isNumber ? (
+	const mappedSymbols = 
 		symbolsArray.map((symbol, index) => <div key={index}>{symbol}</div>)
-	) : (
-		<></>
-	))
+
 
 	const cardFrontStyles = {
 		backgroundImage: `url(${cardsUrl})`
@@ -57,7 +55,7 @@ const Card = ({ number, symbol, canBeFlipped = true, isFlipped = true }) => {
 					<div>{symbol}</div>
 				</div>
 				<div className="symbols">
-					{mappedSymbols}
+					{isNumber && mappedSymbols}
 				</div>
 				<div className="card-corner bottom-right">
 					<div>{number}</div>
