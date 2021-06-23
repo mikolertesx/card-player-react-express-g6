@@ -1,4 +1,4 @@
-import "./Deck.css";
+import "./Deck.scss";
 import { getRandomTip } from "../../util/randomTip"
 
 import { useEffect, useState } from "react";
@@ -22,8 +22,6 @@ const createHand = (cards, canBeFlipped = true) => {
 			/>
 		);
 	});
-
-	console.log(cardElements);
 
 	return cardElements;
 };

@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import Deck from "./components/Deck/Deck";
 
 function App() {
