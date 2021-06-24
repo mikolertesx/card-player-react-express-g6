@@ -66,7 +66,11 @@ app.post("/get-cards", (req, res) => {
 	});
 });
 
-app.use('/*', express.static('build'))
+app.use(express.static('dist', {
+	immutable: true,
+	cacheControl: true,
+	maxAge: "30d",
+}))
 
 app.listen(port, () => {
 	console.log(`Server running on port ${port}`);
